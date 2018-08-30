@@ -22,7 +22,7 @@
     ],
     "require": {
         "flarum/core": "^0.1.0-beta.6",
-        "cnuer/cnuer-oauth": "^0.0.1"
+        "cnuer/oauth": "^0.0.1"
     },
     "autoload": {
         "psr-4": {
