@@ -14,12 +14,6 @@
         "issues": "https://github.com/cnuer/flarum-ext-auth-cnu/issues",
         "source": "https://github.com/cnuer/flarum-ext-auth-cnu"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/cnuer/cnuer-oauth"
-        }
-    ],
     "require": {
         "flarum/core": "^0.1.0-beta.6",
         "cnuer/oauth": "^0.0.1"

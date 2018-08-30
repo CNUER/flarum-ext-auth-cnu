@@ -56,7 +56,7 @@ class CnuAuthController implements ControllerInterface
         $oAuthCode = array_get($queryParams, 'code');
 
         if (!$oAuthCode) {
-            $server->gotoAuthUrl();
+            $server->goToLogin();
 
             exit;
         } else {
@@ -70,6 +70,9 @@ class CnuAuthController implements ControllerInterface
         }
 
         // $temporaryCredentials = unserialize($session->get('temporary_credentials'));
+        if (empty($info->user) || !is_numeric($info->user)) {
+            throw new \Flarum\Core\Exception\InvalidConfirmationTokenException('cnu user info error');
+        }
 
         $identification = ['cnu_id' => $info->user];
         $suggestions = [
