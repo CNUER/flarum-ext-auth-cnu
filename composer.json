@@ -1,22 +1,22 @@
 {
     "name": "cnuer/flarum-ext-auth-cnu",
-    "description": "Allow users to log in with Twitter.",
+    "description": "Allow users to log in with cnu user.",
     "type": "flarum-extension",
     "keywords": ["authentication"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Toby Zerner",
-            "email": "toby.zerner@gmail.com"
+            "name": "melancn",
+            "email": "cc@cnuer.cn"
         }
     ],
     "support": {
-        "issues": "https://github.com/flarum/core/issues",
-        "source": "https://github.com/flarum/flarum-ext-auth-twitter"
+        "issues": "https://github.com/cnuer/flarum-ext-auth-cnu/issues",
+        "source": "https://github.com/cnuer/flarum-ext-auth-cnu"
     },
     "require": {
         "flarum/core": "^0.1.0-beta.6",
-        "cnuer/cnuer-oauth": "^0.0.1-beta.1"
+        "cnuer/cnuer-oauth": "^0.0.1-beta.2"
     },
     "autoload": {
         "psr-4": {
