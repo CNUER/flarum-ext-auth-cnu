@@ -44,8 +44,8 @@ class CnuAuthController implements ControllerInterface
     {
         $redirectUri = (string) $request->getAttribute('originalUri', $request->getUri())->withQuery('');
         $server = new OauthCnu([
-            'identifier'   => $this->settings->get('cnuer-auth-cnu.api_key'),
-            'secret'       => $this->settings->get('cnuer-auth-cnu.api_secret'),
+            'api_key'   => $this->settings->get('cnuer-auth-cnu.api_key'),
+            'api_secret'       => $this->settings->get('cnuer-auth-cnu.api_secret'),
             'callback_uri' => $redirectUri
         ]);
         //'callback_uri' => $this->url->toRoute('auth/cnu')
@@ -56,23 +56,24 @@ class CnuAuthController implements ControllerInterface
         $oAuthCode = array_get($queryParams, 'code');
 
         if (!$oAuthCode) {
-            $temporary = $server->gotoAuthUrl();
-
-            $session->set('temporary_credentials', serialize($temporary));
-            $session->save();
+            $server->gotoAuthUrl();
 
             exit;
         } else {
+            // $session->set('temporary_credentials', serialize($temporary));
+            // $session->save();
             // get token
-            $oAuthToken = $server->getAccessToken($oAuthCode);
-            $info = $server->getUserInfo($oAuthToken);
+            $res = $server->getAccessToken($oAuthCode);
+            $oAuthToken = $res->access_token;
+            $res = $server->getUserInfo($oAuthToken);
+            $info = $res->data;
         }
 
-        $temporaryCredentials = unserialize($session->get('temporary_credentials'));
+        // $temporaryCredentials = unserialize($session->get('temporary_credentials'));
 
-        $identification = ['cnu_id' => $server->get('cnu_id')];
+        $identification = ['cnu_id' => $info->user];
         $suggestions = [
-            'username' => $server->get('uname'),
+            'username' => $info->name,
             'avatarUrl' => ''
         ];
 
