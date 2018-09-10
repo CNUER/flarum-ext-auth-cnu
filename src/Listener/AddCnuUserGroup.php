@@ -30,12 +30,29 @@ class AddCnuUserGroup
      */
     public function addCnuVaildGroup(UserWasActivated $event)
     {
-        if (empty($event->user->cnu_id)) return ;
-        $ingroup = $event->user->groups()->first(['id']);
-        if (empty($ingroup)) {
-            $group = (int) $this->settings->get('cnuer-auth-cnu.group_id');
-            if ($group > 0) $event->user->groups()->attach($group);
+        //是否CNU用户
+        if (empty($event->user->cnu_id)) {
+            if (preg_match('#^(\d+)@(mail\.)?cnu\.edu\.cn$#', $event->user->email, $m)) {
+                $event->user->cnu_id = $m[1];
+            } elseif (preg_match('#@(mail\.)?cnu\.edu\.cn$#', $event->user->email)) {
+                
+            } else {
+                return;
+            }
         }
+        
+        $group = (int) $this->settings->get('cnuer-auth-cnu.group_id');
+        // 没有配置用户组
+        if (empty($group)) return;
+        //查当前用户组
+        $ingroup = $event->user->groups()->first(['id']);
+        
+        if (!empty($ingroup)) {
+            if ($ingroup == $group) return;//已经在用户组中
+            $event->user->groups()->detach();//解除其他用户组关联-黑名单可能有问题
+        }
+        
+        $event->user->groups()->attach($group);
         
     }
 }
